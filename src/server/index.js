@@ -22,8 +22,8 @@ app.get('/', function (req, res) {
 })
 
 // designates what port the app will listen to for incoming requests
-app.listen(8090, function () {
-    console.log('app listening on port 8090!')
+app.listen(8091, function () {
+    console.log('app listening on port 8091!')
 })
 
 app.get('/test', function (req, res) {
@@ -95,7 +95,7 @@ app.post('/input', async (req, res) => {
     const getData = async (url = '') => {
         const response = await fetch(url);
         try {
-            const data = await response.json;
+            const data = await response.json();
             console.log(data);
             return data;
         }
@@ -115,7 +115,7 @@ app.post('/input', async (req, res) => {
       }
     });
     try {
-        const data = await response.json;
+        const data = await response.json();
         console.log(data);
         return data;
     }
