@@ -1,8 +1,6 @@
 const dotenv = require('dotenv');
 dotenv.config();
-var path = require('path')
 const express = require('express')
-const mockAPIResponse = require('./mockAPI.js')
 const fetch = require('node-fetch');
 
 const app = express();
@@ -18,119 +16,116 @@ app.use(cors());
 
 app.use(express.static('dist'))
 
-console.log(__dirname)
-
-const pixabayKey = process.env.PIXABAY_KEY;
-const weatherBitKey = process.env.WEATHERBIT_KEY;
-
-
 
 app.get('/', function (req, res) {
     res.sendFile('dist/index.html')
-    // res.sendFile(path.resolve('src/client/views/index.html'))
 })
 
 // designates what port the app will listen to for incoming requests
-app.listen(8081, function () {
-    console.log('app listening on port 8081!')
+app.listen(8090, function () {
+    console.log('app listening on port 8090!')
 })
 
 app.get('/test', function (req, res) {
-    res.send(mockAPIResponse)
+    res.json('test passed!!');
 })
 
-app.post('/input', async (req, res) => {
+/* const geoUsername = process.env.GEONAMES_USERNAME;
+const geoUrl = `http://api.geonames.org/search?q=berlin&type=json&username=${geoUsername}`;
 
-  const geoUsername = process.env.GEONAMES_USERNAME;
 
-  const fetchData = async () => {
-    const geoData = await getData(`api.geonames.org/search?q=city&type=json&usename=${geoUsername}`);
-    console.log(geoData);
-  }
-    
-
-// setting up geoData call back function
-    const getData = async (url = '') => {
-        const response = await fetch(url, {
-            method: 'POST',
-            credentials: 'same-origin',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        });
+    const getData = async () => {
+        const response = await fetch(geoUrl);
         try {
-            const data = await response.json;
+            const data = await response.json();
             console.log(data);
-            res.send(data);
+            return data;
         }
         catch(error) {
             console.log('error', error);
         }
     }
+
+    getData();
+*/
+  
+app.post('/input', async (req, res) => {
+
+  let postData = '';
+  const geoUsername = process.env.GEONAMES_USERNAME;
+  const pixabayKey = process.env.PIXABAY_KEY;
+  const weatherBitKey = process.env.WEATHERBIT_KEY;
+  const RAPIDAPI_KEY = process.env.RAPIDAPI_KEY;
+  const bookingUrl = "https://booking-com.p.rapidapi.com/v1/hotels/search-by-coordinates?latitude=65.9667&filter_by_currency=AED&locale=en-gb&units=metric&longitude=-18.5333&order_by=popularity&room_number=1&adults_number=2&checkin_date=2021-11-25&checkout_date=2021-11-26&children_number=2&children_ages=5%2C0&page_number=0&categories_filter_ids=facility%3A%3A107%2Cfree_cancellation%3A%3A1"
+  const bookingHost = "booking-com.p.rapidapi.com"
+  const hotelPhotoUrl = "https://booking-com.p.rapidapi.com/v1/hotels/photos?hotel_id=1377073&locale=en-gb"
+  const hotelPhotoHost = "booking-com.p.rapidapi.com"
+  const tripAdvisorUrl = "https://travel-advisor.p.rapidapi.com/locations/v2/auto-complete?query=eiffel%20tower&lang=en_US&units=km"
+  const tripAdvisorHost = "travel-advisor.p.rapidapi.com"
+  
+
+  const fetchData = async () => {
+    const geoData = await getData(`http://api.geonames.org/search?q=berlin&type=json&username=${geoUsername}`);
+    console.log(geoData);
+
+    const weatherData = await getData(`http://api.weatherbit.io/v2.0/forecast/daily?lat={lat}&lon={lon}&key=${weatherBitKey}`);
+    console.log(weatherData);
+
+    const pixabayData = await getData(`https://pixabay.com/api/?key=${pixabayKey}&q=berlin&image_type=photo&safesearch=true`);
+    console.log(pixabayData);
+
+    // fetch the hotel data
+    const searchHotel = await rapidData(bookingUrl, bookingHost);
+    console.log(searchHotel);
+
+    const hotelPhoto = await rapidData(hotelPhotoUrl, hotelPhotoHost);
+    console.log(hotelPhoto);
+
+    // fetch trip advisor data
+    const tripAdvisor = await rapidData(tripAdvisorUrl, tripAdvisorHost);
+    console.log(tripAdvisor);
+
+
+    postData = {};
+    res.send(postData);
+  }
+  fetchData();
+
+// setting up getData call back function
+    const getData = async (url = '') => {
+        const response = await fetch(url);
+        try {
+            const data = await response.json;
+            console.log(data);
+            return data;
+        }
+        catch(error) {
+            console.log('error', error);
+        }
+    }
+
+  // setting up rapidData call back function
+  const rapidData = async (url, host) => {
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        accept: 'application/json',
+        'x-rapidapi-key': RAPIDAPI_KEY,
+        'x-rapidapi-host': host,
+      }
+    });
+    try {
+        const data = await response.json;
+        console.log(data);
+        return data;
+    }
+    catch(error) {
+        console.log('error', error);
+    }
+}
+
+
 });
 
 
 
-
-
-/* app.post('/makeCalls', async (req, res) => {
-    let userInput = req.body
-    let projectData = ''
-    let geonameData = ''
-    let weatherData = ''
-    let pixabayData = ''
-    // call geonames
-    const username = process.env.GN_username;
-    const geonameBaseURL = `http://api.geonames.org/search?q=${userInput.city}&maxRows=1&type=json&username=${username}`
-  
-    await (fetch(encodeURI(geonameBaseURL))
-      // get lat long countryName 
-      .then(res => res.json())
-      .then(data => geonameData = { lng: data.geonames[0].lng, lat: data.geonames[0].lat, countryName: data.geonames[0].countryName, city: data.geonames[0].toponymName })
-      .catch(err => {
-        console.log(err)
-        return err.message
-      }))
-  
-    // WEATHERBIT API
-    const key = process.env.weather_KEY
-    const weatherbitBaseURL = 'http://api.weatherbit.io/v2.0/current?'
-  
-    const url = `${weatherbitBaseURL}lat=${geonameData.lat}&lon=${geonameData.lng}&key=${key}&units=I`
-    // Call API
-    await (fetch(url)
-      // get temperature and weather description
-      .then(res => res.json())
-      .then(res => weatherData = { temp: res.data[0].temp, weather: res.data[0].weather.description, icon: res.data[0].weather.icon })
-      .catch(err => {
-        console.log(err)
-        return err.message
-      }))
-    // PIXABAY API
-    const pixabayKey = process.env.pixabay_KEY
-    const pixabayURL = `https://pixabay.com/api/?key=${pixabayKey}&q=${geonameData.city}&category=places&image_type=photo&orientation=horizontal&safesearch=true`
-    // Call API
-  
-    await (fetch(pixabayURL)
-      .then(res =>
-        res.json()
-      )
-      .then(data => {
-        pixabayData = { img: data.hits[0].webformatURL }
-      })
-      .catch(err => {
-        console.log(err)
-        return err.message
-      })
-    )
-  
-    projectData = { temp: weatherData.temp, weather: weatherData.weather, icon: weatherData.icon, cityName: geonameData.city, countryName: geonameData.countryName, date: userInput.date, img: pixabayData.img }
-    res.send(projectData)
-  
-  })
-  
-  module.exports = app
-
-
- */

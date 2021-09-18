@@ -1,33 +1,30 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Weather Journal</title>
-<link href="https://fonts.googleapis.com/css?family=Oswald:400,600,700|Ranga:400,700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Travel App</title>
 </head>
- <body>
-    <div id = "app">
-      <div class ="holder_headline">
-        Weather Journal App
-      </div>
-      <div class ="holder_zip">
-        <label for="zip">Enter Zipcode here</label>
-        <input type="text" id="zip" placeholder="enter zip code here">
-      </div>
-      <div class ="holder_feel">
-        <label for="feelings">How are you feeling today?</label>
-        <textarea class= "myInput" id="feelings" placeholder="Enter your feelings here" rows="9" cols="50"></textarea>
-      <button id="generate" type = "submit"> Generate </button>
-      </div>
-      <div class ="holder_entry">
-        <div class = "title">Most Recent Entry</div>
-        <div id = "entryHolder">
-          <div id = "date"></div> 
-          <div id = "temp"></div>
-          <div id = "content"></div>
-        </div>
-    </div>
-  </div>
+<body>
+  <main>
+    <form class="des">
+      <h3 class="planner">Travel Planner</h3>
+      <label for="destination" class="travel" >Enter your destination</label>
+      <input type="text" name="" id="destination" placeholder = 'enter the city here'>
+      <br>
+      <label for="departure" class="travel" required>Departure</label>
+      <input type="date" name="" id="departure">
+      <br>
+      <button type="submit" id="discover">Discover</button>
+    </form>
+
+    <section class="weather">
+  
+    </section>
+    <section class="des"></section>
+    <section class="des"></section>
+    <section class="des"></section>
+  </main>
 </body>
 </html>
