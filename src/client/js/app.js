@@ -1,9 +1,20 @@
+import moment from 'moment';
+
+const departure = document.getElementById('departure').value;
+const m = moment().format('LL');
+console.log(m);
+const today = moment();
+console.log(today);
+const departureDate = moment("2021-09-22");
+const difference = departureDate.diff(today, "days");
+console.log(difference);
 
 
 // Setting up the client to retrieve, post and dynamically update the data from the API
 const discover = document.getElementById('discover');
 
 discover.addEventListener ('click', confirmData);
+
 
 function confirmData (e) {
     const newZip = document.getElementById('zip').value;

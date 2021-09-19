@@ -5,6 +5,8 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const MomentLocalesPlugin = require('moment-locales-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
     mode: 'production',
@@ -49,6 +51,18 @@ module.exports = {
         new CopyWebpackPlugin([
             {from:'src/client/images',to:'images'} 
         ]), 
+
+        new MomentLocalesPlugin(),
+
+        new CleanWebpackPlugin({
+            // Simulate the removal of files
+            dry: true,
+            // Write Logs to Console
+            verbose: true,
+            // Automatically remove all unused webpack assets on rebuild
+            cleanStaleWebpackAssets: true,
+            protectWebpackAssets: false
+        })
     ]
 }
 
