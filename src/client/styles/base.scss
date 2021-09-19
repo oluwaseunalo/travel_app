@@ -1,5 +1,9 @@
 body {
-    background-color: rgb(2, 5, 54);
+    background-image: url('./../images/nature.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100vh;
+    width: 100%;
     color: whitesmoke;
     font-family: -apple-system, BlinkMacSystemFont, sans-serif;
 }
@@ -86,3 +90,7 @@ button:focus {
     font-family: 'Oswald', sans-serif;
     color: wheat;
 } 
+
+
+
+

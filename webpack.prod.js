@@ -29,6 +29,11 @@ module.exports = {
             {
                 test: /\.scss$/,
                 use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader' ]
+           },
+           
+           {
+                test: /\.(png|jp(e*)g|svg)$/,  
+                loader: 'file-loader', 
            }
         ]
     },
@@ -42,9 +47,8 @@ module.exports = {
         new MiniCssExtractPlugin({filename: '[name].css'}),
         
         new CopyWebpackPlugin([
-            {from:'src/images',to:'images'} 
+            {from:'src/client/images',to:'images'} 
         ]), 
-
     ]
 }
 
