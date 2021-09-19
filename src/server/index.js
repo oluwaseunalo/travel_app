@@ -47,8 +47,8 @@ const geoUrl = `http://api.geonames.org/search?q=berlin&type=json&username=${geo
     }
 
     getData();
-*/
-  
+
+  */
 app.post('/input', async (req, res) => {
 
   let postData = '';
@@ -56,22 +56,22 @@ app.post('/input', async (req, res) => {
   const pixabayKey = process.env.PIXABAY_KEY;
   const weatherBitKey = process.env.WEATHERBIT_KEY;
   const RAPIDAPI_KEY = process.env.RAPIDAPI_KEY;
-  const bookingUrl = "https://booking-com.p.rapidapi.com/v1/hotels/search-by-coordinates?latitude=65.9667&filter_by_currency=AED&locale=en-gb&units=metric&longitude=-18.5333&order_by=popularity&room_number=1&adults_number=2&checkin_date=2021-11-25&checkout_date=2021-11-26&children_number=2&children_ages=5%2C0&page_number=0&categories_filter_ids=facility%3A%3A107%2Cfree_cancellation%3A%3A1"
+  const bookingUrl = "https://booking-com.p.rapidapi.com/v1/hotels/search-by-coordinates?latitude=${data[0].lat}&filter_by_currency=AED&locale=en-gb&units=metric&longitude=${data[0].lon}&order_by=popularity&room_number=1&adults_number=2&checkin_date=2021-11-25&checkout_date=2021-11-26&children_number=2&children_ages=5%2C0&page_number=0&categories_filter_ids=facility%3A%3A107%2Cfree_cancellation%3A%3A1"
   const bookingHost = "booking-com.p.rapidapi.com"
   const hotelPhotoUrl = "https://booking-com.p.rapidapi.com/v1/hotels/photos?hotel_id=1377073&locale=en-gb"
   const hotelPhotoHost = "booking-com.p.rapidapi.com"
-  const tripAdvisorUrl = "https://travel-advisor.p.rapidapi.com/locations/v2/auto-complete?query=eiffel%20tower&lang=en_US&units=km"
+  const tripAdvisorUrl = "https://travel-advisor.p.rapidapi.com/locations/v2/auto-complete?query=${data[0].toponymName}&lang=en_US&units=km"
   const tripAdvisorHost = "travel-advisor.p.rapidapi.com"
   
 
   const fetchData = async () => {
-    const geoData = await getData(`http://api.geonames.org/search?q=berlin&type=json&username=${geoUsername}`);
+    const geoData = await getData(`http://api.geonames.org/search?q=${req.body.city}&type=json&username=${geoUsername}`);
     console.log(geoData);
 
-    const weatherData = await getData(`http://api.weatherbit.io/v2.0/forecast/daily?lat={lat}&lon={lon}&key=${weatherBitKey}`);
+    const weatherData = await getData(`http://api.weatherbit.io/v2.0/forecast/daily?lat=${data[0].lat}&lon=${data[0].lon}&key=${weatherBitKey}`);
     console.log(weatherData);
 
-    const pixabayData = await getData(`https://pixabay.com/api/?key=${pixabayKey}&q=berlin&image_type=photo&safesearch=true`);
+    const pixabayData = await getData(`https://pixabay.com/api/?key=${pixabayKey}&q=${data[0].toponymName}&image_type=photo&safesearch=true`);
     console.log(pixabayData);
 
     // fetch the hotel data
@@ -126,6 +126,5 @@ app.post('/input', async (req, res) => {
 
 
 });
-
 
 
