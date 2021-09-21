@@ -1,10 +1,10 @@
 import moment from 'moment';
 
 const departure = document.getElementById('departure').value;
-const m = moment().format('LL');
-console.log(m);
+// const m = moment().format('LL');
+// console.log(m);
 const today = moment();
-console.log(today);
+console.log(today.d);
 const departureDate = moment("2021-09-22");
 const difference = departureDate.diff(today, "days");
 console.log(difference);
