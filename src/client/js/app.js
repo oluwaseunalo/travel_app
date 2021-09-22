@@ -2,8 +2,8 @@
 import moment from 'moment';
 
 const city = document.querySelector('.city').value;
-const departure = document.querySelector('#departure');
-const search = document.querySelector('#search');
+const departure = document.querySelector('#departure').value;
+
 
 // const m = moment().format('LL');
 // console.log(m);
@@ -43,6 +43,7 @@ function confirmData (e) {
     export {confirmData};
 
 // fetching rapid data and searching for hotel
+const search = document.querySelector('#search');
 const cityHotel = document.getElementById('hotel__destination').value;
 const checkinDate = document.getElementById('checkin__date').value;
 const checkoutDate = document.getElementById('checkout__date').value;
