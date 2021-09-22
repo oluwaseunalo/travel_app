@@ -84,12 +84,11 @@ app.post('/input', async (req, res) => {
     // fetch trip advisor data
     const tripAdvisor = await rapidData(tripAdvisorUrl, tripAdvisorHost);
     console.log(tripAdvisor);
-
-
-    postData = {};
-    res.send(postData);
+  
   }
   fetchData();
+  postData = {temp:data[0].temp, weather:data[0].weather, city:data[0].toponymName};
+  res.send(postData);
 
 // setting up getData call back function
     const getData = async (url = '') => {

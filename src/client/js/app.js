@@ -1,11 +1,13 @@
+
 import moment from 'moment';
 
-const departure = document.getElementById('departure').value;
+const city = document.querySelector('.city').value;
+const departure = document.querySelector('#departure').value;
 // const m = moment().format('LL');
 // console.log(m);
 const today = moment();
-console.log(today.d);
-const departureDate = moment("2021-09-22");
+const m = moment(departure);
+const departureDate = m.add(1, 'day');
 const difference = departureDate.diff(today, "days");
 console.log(difference);
 
@@ -17,58 +19,23 @@ discover.addEventListener ('click', confirmData);
 
 
 function confirmData (e) {
-    const newZip = document.getElementById('zip').value;
-    const feelings = document.getElementById('feelings').value;
-    getWeatherApi(baseURL,newZip,apiKey)
+    if(difference >= 1) {
+       const tripDays = document.querySelector('.trip__days');
+       tripDays.innerHTML = `Your trip is in ${difference} days time`;
+       const displayData = async () => {
+           retrieveData = await fetch('/input');
+           try {
+               data = await response.json();
+               console.log(data);
+           }
+           catch(error){
+               console.log('error', error);
+           }
 
-    .then(function(data){
-        console.log(data);
-        postData('/includeData', {date:d, temp:data.main.temp, content:feelings})
-    .then (updateUI())
-    })
-};
+       }
+    displayData();
+    
 
-// Expressing the getWeatherApi call back function
-const getWeatherApi = async (baseURL,newZip,apiKey) => {
-    const response = await fetch(baseURL+newZip+apiKey)
-    try{
-        const data = await response.json();
-        console.log(data);
-        return data;
-    }
-    catch (error){
-        console.log("error", error);}
-}
+    }};
 
-// Expressing the postData callback function
-const postData = async (url = '', data = {}) => {
-    console.log(data);
-    const response = await fetch(url, {
-        method: 'POST',
-        credentials:'same-origin',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-            body: JSON.stringify(data),
-        });
-    try {
-        const newData = await response.json();
-        console.log(newData);
-        return newData;
-    }
-    catch(error){
-        console.log("error", error);
-    }
-}
-
-// Expressing the updateUI callback function
-const updateUI = async () => {
-    const request = await fetch ('/retrieveData');
-    try{
-        const allData = await request.json();
-        document.getElementById('date').innerHTML = "Date: "+(allData.date);
-        document.getElementById('temp').innerHTML = "weather: "+(allData.temp);
-        document.getElementById('content').innerHTML = "I am feeling: "+(allData.content);
-    }catch(error){
-        console.log("error", error);}
-}
+    export {confirmData};
