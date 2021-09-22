@@ -8,6 +8,12 @@ body {
     font-family: -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
+.place__form {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
 #app {
     display: grid;
     grid-auto-rows: minmax(150px, auto);

@@ -55,15 +55,7 @@ app.post('/input', async (req, res) => {
   const geoUsername = process.env.GEONAMES_USERNAME;
   const pixabayKey = process.env.PIXABAY_KEY;
   const weatherBitKey = process.env.WEATHERBIT_KEY;
-  const RAPIDAPI_KEY = process.env.RAPIDAPI_KEY;
-  const bookingUrl = "https://booking-com.p.rapidapi.com/v1/hotels/search-by-coordinates?latitude=${data[0].lat}&filter_by_currency=AED&locale=en-gb&units=metric&longitude=${data[0].lon}&order_by=popularity&room_number=1&adults_number=2&checkin_date=2021-11-25&checkout_date=2021-11-26&children_number=2&children_ages=5%2C0&page_number=0&categories_filter_ids=facility%3A%3A107%2Cfree_cancellation%3A%3A1"
-  const bookingHost = "booking-com.p.rapidapi.com"
-  const hotelPhotoUrl = "https://booking-com.p.rapidapi.com/v1/hotels/photos?hotel_id=1377073&locale=en-gb"
-  const hotelPhotoHost = "booking-com.p.rapidapi.com"
-  const tripAdvisorUrl = "https://travel-advisor.p.rapidapi.com/locations/v2/auto-complete?query=${data[0].toponymName}&lang=en_US&units=km"
-  const tripAdvisorHost = "travel-advisor.p.rapidapi.com"
   
-
   const fetchData = async () => {
     const geoData = await getData(`http://api.geonames.org/search?q=${req.body.city}&type=json&username=${geoUsername}`);
     console.log(geoData);
@@ -74,37 +66,49 @@ app.post('/input', async (req, res) => {
     const pixabayData = await getData(`https://pixabay.com/api/?key=${pixabayKey}&q=${data[0].toponymName}&image_type=photo&safesearch=true`);
     console.log(pixabayData);
 
-    // fetch the hotel data
-    const searchHotel = await rapidData(bookingUrl, bookingHost);
-    console.log(searchHotel);
-
-    const hotelPhoto = await rapidData(hotelPhotoUrl, hotelPhotoHost);
-    console.log(hotelPhoto);
-
-    // fetch trip advisor data
-    const tripAdvisor = await rapidData(tripAdvisorUrl, tripAdvisorHost);
-    console.log(tripAdvisor);
-  
   }
   fetchData();
-  postData = {temp:data[0].temp, weather:data[0].weather, city:data[0].toponymName};
+  postData = {temp:data[0].temp, weather:data[0].weather, city:data[0].toponymName, img:data[0].hits.webFormatURL};
   res.send(postData);
 
-// setting up getData call back function
-    const getData = async (url = '') => {
-        const response = await fetch(url);
-        try {
-            const data = await response.json();
-            console.log(data);
-            return data;
-        }
-        catch(error) {
-            console.log('error', error);
-        }
-    }
+}
 
-  // setting up rapidData call back function
-  const rapidData = async (url, host) => {
+
+);
+
+
+app.post('/rapid', async (req, res) => {
+  rapidhotelData = '';
+  const RAPIDAPI_KEY = process.env.RAPIDAPI_KEY;
+  const locationUrl = `https://booking-com.p.rapidapi.com/v1/hotels/locations?name=${req.body.cityHotel}&locale=en-gb`
+  const locationHost = "booking-com.p.rapidapi.com"
+  const searchUrl = `https://booking-com.p.rapidapi.com/v1/hotels/search?locale=en-gb&checkin_date=${req.body.checkinDate}&checkout_date=${req.body.checkoutDate}&filter_by_currency=USD&room_number=${req.body.roomNo}&order_by=popularity&adults_number=${req.body.adultNo}&units=metric&children_number=${req.body.childrenNo}&categories_filter_ids=facility%3A%3A107%2Cfree_cancellation%3A%3A1&page_number=0&children_ages=5%2C0`
+  destIdCity = `&dest_id=${data[0].dest_id}&dest_type=${data[0].dest_type}`
+  const searchHost = "booking-com.p.rapidapi.com"
+  
+  /*
+  const tripAdvisorUrl = "https://travel-advisor.p.rapidapi.com/locations/v2/auto-complete?query=${data[0].toponymName}&lang=en_US&units=km"
+  const tripAdvisorHost = "travel-advisor.p.rapidapi.com"
+  */
+  const getRapidData = async () =>{
+     // fetch the hotel data
+   const hotelLocation = await rapidData(locationUrl, locationHost);
+   console.log(hotelLocation);
+
+   const searchHotel = await rapidData(searchUrl+destIdCity, searchHost);
+   console.log(searchHotel);
+
+   /* fetch trip advisor data
+   const tripAdvisor = await rapidData(tripAdvisorUrl, tripAdvisorHost);
+   console.log(tripAdvisor); */
+  }
+
+  getRapidData();
+  rapidhotelData = {}
+  res.send(rapidhotelData);
+
+   // setting up rapidData call back function
+   const rapidData = async (url, host) => {
     const response = await fetch(url, {
       method: 'GET',
       headers: {
@@ -121,9 +125,5 @@ app.post('/input', async (req, res) => {
     catch(error) {
         console.log('error', error);
     }
-}
 
-
-});
-
-
+}});

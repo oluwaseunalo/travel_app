@@ -2,7 +2,9 @@
 import moment from 'moment';
 
 const city = document.querySelector('.city').value;
-const departure = document.querySelector('#departure').value;
+const departure = document.querySelector('#departure');
+const search = document.querySelector('#search');
+
 // const m = moment().format('LL');
 // console.log(m);
 const today = moment();
@@ -39,3 +41,33 @@ function confirmData (e) {
     }};
 
     export {confirmData};
+
+// fetching rapid data and searching for hotel
+const cityHotel = document.getElementById('hotel__destination').value;
+const checkinDate = document.getElementById('checkin__date').value;
+const checkoutDate = document.getElementById('checkout__date').value;
+const adultNo = document.getElementById('adults').value;
+const childrenNo = document.getElementById('children').value;
+const roomNo = document.getElementById('rooms').value;
+
+    search.addEventListener ('click', searchData);
+
+    function searchData (e) {
+            const accessData = async () => {
+                callData = await fetch('/rapid');
+                try {
+                    data = await response.json();
+                    console.log(data);
+                }
+                catch(error){
+                    console.log('error', error);
+                }
+     
+            }
+        
+           
+        accessData();
+
+    }
+
+    export {searchData}
