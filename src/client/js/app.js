@@ -1,19 +1,6 @@
 
 import moment from 'moment';
 
-const city = document.querySelector('.city').value;
-const departure = document.querySelector('#departure').value;
-
-
-// const m = moment().format('LL');
-// console.log(m);
-const today = moment();
-const m = moment(departure);
-const departureDate = m.add(1, 'day');
-const difference = departureDate.diff(today, "days");
-console.log(difference);
-
-
 // Setting up the client to retrieve, post and dynamically update the data from the API
 const discover = document.getElementById('discover');
 
@@ -21,14 +8,30 @@ discover.addEventListener ('click', confirmData);
 
 
 function confirmData (e) {
+    e.preventDefault();
+    const today = moment();
+    const departure = document.querySelector('#departure').value;
+const departureDate = moment(departure);
+const difference = Math.ceil(departureDate.diff(today, "days", true));
+console.log(difference);
+
     if(difference >= 1) {
        const tripDays = document.querySelector('.trip__days');
        tripDays.innerHTML = `Your trip is in ${difference} days time`;
+       const city = document.querySelector('.city').value;
        const displayData = async () => {
-           retrieveData = await fetch('/input');
+        await fetch('http://localhost:8091/input', {
+            method: 'POST',
+            credentials: 'same-origin',
+            headers: {
+                'Content-Type': 'application/json',
+            },       
+            body: JSON.stringify({city}),
+        })
            try {
                data = await response.json();
                console.log(data);
+               
            }
            catch(error){
                console.log('error', error);
@@ -54,8 +57,10 @@ const roomNo = document.getElementById('rooms').value;
     search.addEventListener ('click', searchData);
 
     function searchData (e) {
+        e.preventDefault();
             const accessData = async () => {
-                callData = await fetch('/rapid');
+           const callData = await fetch('http://localhost:8091/rapid');
+           console.log(callData);
                 try {
                     data = await response.json();
                     console.log(data);

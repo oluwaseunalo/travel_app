@@ -2,12 +2,19 @@ const path = require('path')
 const webpack = require('webpack')
 const HtmlWebPackPlugin = require("html-webpack-plugin")
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const MomentLocalesPlugin = require('moment-locales-webpack-plugin');
 
 
 module.exports = {
     entry: './src/client/index.js',
     mode: 'development',
     devtool: 'source-map',
+    devServer: {
+        proxy: {
+          '/api': 'http://localhost:3000',
+        },
+      },
     stats: 'verbose',
     module: {
         rules: [
@@ -19,7 +26,11 @@ module.exports = {
             {
                 test: /\.scss$/,
                 use: [ 'style-loader', 'css-loader', 'sass-loader' ]
-           }
+           },
+           {
+            test: /\.(png|jp(e*)g|svg)$/,  
+            loader: 'file-loader', 
+       }
         ]
     },
     plugins: [
@@ -27,6 +38,12 @@ module.exports = {
             template: "./src/client/views/index.html",
             filename: "./index.html",
         }),
+        new CopyWebpackPlugin([
+            {from:'src/client/images',to:'images'} 
+        ]), 
+
+        new MomentLocalesPlugin(),
+
         new CleanWebpackPlugin({
             // Simulate the removal of files
             dry: true,
