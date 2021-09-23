@@ -59,8 +59,7 @@ const roomNo = document.getElementById('rooms').value;
     function searchData (e) {
         e.preventDefault();
             const accessData = async () => {
-           const callData = await fetch('http://localhost:8091/rapid');
-           console.log(callData);
+           await fetch('http://localhost:8091/rapid');
                 try {
                     data = await response.json();
                     console.log(data);
