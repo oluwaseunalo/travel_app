@@ -55,41 +55,43 @@ const postData = async (url = '') => {
 
 // fetching rapid data and searching for hotel
 const search = document.querySelector('#search');
+
+    search.addEventListener ('click', searchData);
+
+    function searchData (e) {
+        e.preventDefault();
 const cityHotel = document.getElementById('hotel__destination').value;
 const checkinDate = document.getElementById('checkin__date').value;
 const checkoutDate = document.getElementById('checkout__date').value;
 const adultNo = document.getElementById('adults').value;
 const childrenNo = document.getElementById('children').value;
 const roomNo = document.getElementById('rooms').value;
-
-
-
-    search.addEventListener ('click', searchData);
-
-    function searchData (e) {
-        e.preventDefault();
-        const accessData = async () => {
-          const response = await fetch('http://localhost:8091/rapid', {
-            method: 'POST',
-            credentials: 'same-origin',
-            headers: {
-                'Content-Type': 'application/json',
-            },       
-            body: JSON.stringify(data),
-        });
-                try {
-                    data = await response.json();
-                    console.log(data);
-                }
-                catch(error){
-                    console.log('error', error);
-                }
-     
+        postRapidData('http://localhost:8091/rapid')
+        .then(function(rapidHotelData){
+        console.log(rapidHotelData)
+        return rapidHotelData
+       .then (travelUpdate())
+       })
+   
+}
+const postRapidData = async (url = '') => {
+    let userData = {city: 'cityHotel', checkinDate: 'checkinDate', checkoutDate: 'checkoutDate', roomNo: 'roomNo', adultNo: 'adultNo', childrenNo: 'childrenNo'}
+    const response = await fetch(url,{
+        method: 'POST',
+        credentials:'same-origin',
+        headers: {
+            'Content-Type': 'application/json',
+            },
+        body: JSON.stringify({userData}),
+            });
+        try {
+            const newData = await response.json();
+            console.log(newData);
+            return newData;
             }
-        
-           
-        accessData();
-
-    }
+            catch(error){
+                console.log("error", error);
+            }
+}
 
     export {searchData}

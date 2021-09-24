@@ -64,26 +64,29 @@ const pixabayUrl = `https://pixabay.com/api/?key=${pixabayKey}&q=${geoData.city}
 let pixData = '';
 await (fetch(pixabayUrl)
 .then(res => res.json())
-.then(data => {pixData = {image: data.hits[0].webformatURL }})
+.then(data => pixData = {image: data.hits[0].webformatURL})
 .catch(error => {
   console.log(error)
   return error.message
 }))
 
-allData = {temp: weatherBitData.temp, weather: weatherBitData.des, icon: weatherBitData.icon , city: geoData.city, country: geoData.country, image: pixData.image}
+allData = {temp: weatherBitData.temp, weather: weatherBitData.weather, icon: weatherBitData.icon , city: geoData.city, country: geoData.country, image: pixData.image}
 res.send(allData);
 })
 
 
 app.post('/rapid', async (req, res) => {
-  rapidhotelData = '';
+
+  rapidHotelData = '';
+
+  let userData = {city: 'req.body.cityHotel', checkinDate: 'req.body.checkinDate', checkoutDate: 'req.body.checkoutDate', roomNo: 'req.body.roomNo', adultNo: 'req.body.adultNo', childrenNo: 'req.body.childrenNo'}
   const RAPIDAPI_KEY = process.env.RAPIDAPI_KEY;
 
-  const locationUrl = `https://booking-com.p.rapidapi.com/v1/hotels/locations?name=${req.body.cityHotel}&locale=en-gb`
+  const locationUrl = `https://booking-com.p.rapidapi.com/v1/hotels/locations?name=${userData.city}&locale=en-gb`
   const locationHost = "booking-com.p.rapidapi.com"
 
   //fetching hotel location data
-
+    location = '';
   await fetch(locationUrl, {
 	"method": "GET",
 	"headers": {
@@ -92,17 +95,17 @@ app.post('/rapid', async (req, res) => {
 	}
 })
 .then(res => res.json())
-.then(response => {
-	console.log(response);
-})
-.catch(err => {
-	console.error(err);
+.then(data => location = {id: data[0].dest_id, type: data[0].dest_id })
+.catch(error => {
+	console.error(error);
+  return error.message;
 });
 
 // fetching the hotel search data
-  const searchUrl = `https://booking-com.p.rapidapi.com/v1/hotels/search?locale=en-gb&checkin_date=${req.body.checkinDate}&checkout_date=${req.body.checkoutDate}&filter_by_currency=USD&room_number=${req.body.roomNo}&order_by=popularity&adults_number=${req.body.adultNo}&units=metric&children_number=${req.body.childrenNo}&categories_filter_ids=facility%3A%3A107%2Cfree_cancellation%3A%3A1&page_number=0&children_ages=5%2C0`
-  destIdCity = `&dest_id=${data[0].dest_id}&dest_type=${data[0].dest_type}`
-  const searchHost = "booking-com.p.rapidapi.com"  
+  let query = '';
+  const searchUrl = `https://booking-com.p.rapidapi.com/v1/hotels/search?locale=en-gb&checkin_date=${userData.checkinDate}&checkout_date=${userData.checkoutDate}&filter_by_currency=USD&room_number=${userData.roomNo}&order_by=popularity&adults_number=${userData.adultNo}&units=metric&children_number=${userData.childrenNo}&categories_filter_ids=facility%3A%3A107%2Cfree_cancellation%3A%3A1&page_number=0&children_ages=5%2C0`
+  destIdCity = `&dest_id=${location.id}&dest_type=${location.type}`
+  const searchHost = 'booking-com.p.rapidapi.com'  
   
   await fetch(searchUrl+destIdCity, {
 	"method": "GET",
@@ -112,12 +115,14 @@ app.post('/rapid', async (req, res) => {
 	}
 })
 .then(res => res.json())
-.then(response => {
-	console.log(response);
-})
-.catch(err => {
-	console.error(err);
+.then(data => query = {name: data[0].result.hotel_name, id: data[0].result.id, cancel: data[0].result.is_free_cancellable, price: data[0].result.min_total_price})
+.catch(error => {
+	console.error(error);
+  return error.message;
 });
+
+rapidHotelData = {name: query.name, id: query.id, cancel: query.cancel, price: query.price};
+res.send(rapidHotelData);
 
 })
   
