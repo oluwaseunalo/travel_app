@@ -5,7 +5,7 @@ import moment from 'moment';
 
 // Setting up the client to retrieve, post and dynamically update the data from the API
 const discover = document.getElementById('discover');
-const city = document.querySelector('.city').value;
+
 
 discover.addEventListener ('click', confirmData);
 
@@ -20,27 +20,25 @@ console.log(difference);
     if(difference >= 1) {
        const tripDays = document.querySelector('.trip__days');
        tripDays.innerHTML = `Your trip is in ${difference} days time`;
-       postData('http://localhost:8091/input', {temp: data[0].temp, weather: data[0].weather.description, icon: data[0].weather.icon , city: geonames[0].toponymName, country: geonames[0].countryName, image: data.hits[0].webformatURL})
-       .then(function(data){
-        console.log(data)
-        return data
+       postData('http://localhost:8091/input')
+       .then(function(allData){
+        console.log(allData)
+        return allData
        .then (travelUpdate())
        })
     }
 
-    
-
 }
 
-const postData = async (url = '', data = {}) => {
-    console.log(data);
-    const response = await fetch(url, {
+const postData = async (url = '') => {
+    const city = document.querySelector('#destination').value;
+    const response = await fetch(url,{
         method: 'POST',
         credentials:'same-origin',
         headers: {
             'Content-Type': 'application/json',
         },
-            body: JSON.stringify(data),
+            body: JSON.stringify({city}),
         });
     try {
         const newData = await response.json();

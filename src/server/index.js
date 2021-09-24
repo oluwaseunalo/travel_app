@@ -44,6 +44,7 @@ await (fetch(encodeURI(geonameUrl))
 .then(data => geoData = {lat: data.geonames[0].lat, country: data.geonames[0].countryName, city:data.geonames[0].toponymName, long:data.geonames[0].lng})
 .catch(error => {
   console.log(error)
+  return error.message
 }))
 
 // fetching Weatherbit API
@@ -52,9 +53,10 @@ const weatherDataUrl = `http://api.weatherbit.io/v2.0/forecast/daily?lat=${geoDa
 let weatherBitData = ''
 await (fetch(weatherDataUrl)
 .then(res => res.json())
-.then(res => weatherBitData = { temp: data[0].temp, weather: data[0].weather.description, icon: data[0].weather.icon })
+.then(res => weatherBitData = { temp: res.data[0].temp, weather: res.data[0].weather.description, icon: res.data[0].weather.icon })
 .catch(error => {
   console.log(error)
+  return error.message
 }))
 
 // Fetching Pixabay API
@@ -62,9 +64,10 @@ const pixabayUrl = `https://pixabay.com/api/?key=${pixabayKey}&q=${geoData.city}
 let pixData = '';
 await (fetch(pixabayUrl)
 .then(res => res.json())
-.then(data => pixData = {image: data.hits[0].webformatURL })
+.then(data => {pixData = {image: data.hits[0].webformatURL }})
 .catch(error => {
   console.log(error)
+  return error.message
 }))
 
 allData = {temp: weatherBitData.temp, weather: weatherBitData.des, icon: weatherBitData.icon , city: geoData.city, country: geoData.country, image: pixData.image}
