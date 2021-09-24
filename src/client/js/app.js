@@ -20,7 +20,7 @@ console.log(difference);
        tripDays.innerHTML = `Your trip is in ${difference} days time`;
        const city = document.querySelector('.city').value;
        const displayData = async () => {
-        await fetch('http://localhost:8091/input', {
+        const response = await fetch('http://localhost:8091/input', {
             method: 'POST',
             credentials: 'same-origin',
             headers: {
@@ -59,7 +59,14 @@ const roomNo = document.getElementById('rooms').value;
     function searchData (e) {
         e.preventDefault();
             const accessData = async () => {
-           await fetch('http://localhost:8091/rapid');
+          const response = await fetch('http://localhost:8091/rapid', {
+            method: 'POST',
+            credentials: 'same-origin',
+            headers: {
+                'Content-Type': 'application/json',
+            },       
+            body: JSON.stringify(data),
+        });
                 try {
                     data = await response.json();
                     console.log(data);
