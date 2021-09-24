@@ -1,8 +1,11 @@
-
 import moment from 'moment';
+// import { postData } from './js/postdata.js';
+// import { travelUpdate } from './js/travel_updateUI.js';
+
 
 // Setting up the client to retrieve, post and dynamically update the data from the API
 const discover = document.getElementById('discover');
+const city = document.querySelector('.city').value;
 
 discover.addEventListener ('click', confirmData);
 
@@ -10,38 +13,45 @@ discover.addEventListener ('click', confirmData);
 function confirmData (e) {
     e.preventDefault();
     const today = moment();
-    const departure = document.querySelector('#departure').value;
+const departure = document.querySelector('#departure').value;
 const departureDate = moment(departure);
 const difference = Math.ceil(departureDate.diff(today, "days", true));
 console.log(difference);
-
     if(difference >= 1) {
        const tripDays = document.querySelector('.trip__days');
        tripDays.innerHTML = `Your trip is in ${difference} days time`;
-       const city = document.querySelector('.city').value;
-       const displayData = async () => {
-        const response = await fetch('http://localhost:8091/input', {
-            method: 'POST',
-            credentials: 'same-origin',
-            headers: {
-                'Content-Type': 'application/json',
-            },       
-            body: JSON.stringify({city}),
-        })
-           try {
-               data = await response.json();
-               console.log(data);
-               
-           }
-           catch(error){
-               console.log('error', error);
-           }
+       postData('http://localhost:8091/input', {temp: data[0].temp, weather: data[0].weather.description, icon: data[0].weather.icon , city: geonames[0].toponymName, country: geonames[0].countryName, image: data.hits[0].webformatURL})
+       .then(function(data){
+        console.log(data)
+        return data
+       .then (travelUpdate())
+       })
+    }
 
-       }
-    displayData();
     
 
-    }};
+}
+
+const postData = async (url = '', data = {}) => {
+    console.log(data);
+    const response = await fetch(url, {
+        method: 'POST',
+        credentials:'same-origin',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+            body: JSON.stringify(data),
+        });
+    try {
+        const newData = await response.json();
+        console.log(newData);
+        return newData;
+    }
+    catch(error){
+        console.log("error", error);
+    }
+
+}
 
     export {confirmData};
 
@@ -54,11 +64,13 @@ const adultNo = document.getElementById('adults').value;
 const childrenNo = document.getElementById('children').value;
 const roomNo = document.getElementById('rooms').value;
 
+
+
     search.addEventListener ('click', searchData);
 
     function searchData (e) {
         e.preventDefault();
-            const accessData = async () => {
+        const accessData = async () => {
           const response = await fetch('http://localhost:8091/rapid', {
             method: 'POST',
             credentials: 'same-origin',

@@ -52,7 +52,7 @@ const weatherDataUrl = `http://api.weatherbit.io/v2.0/forecast/daily?lat=${geoDa
 let weatherBitData = ''
 await (fetch(weatherDataUrl)
 .then(res => res.json())
-.then(res => weatherBitData = { temp: res.data[0].temp, des: res.data[0].weather.description, icon: res.data[0].weather.icon })
+.then(res => weatherBitData = { temp: data[0].temp, weather: data[0].weather.description, icon: data[0].weather.icon })
 .catch(error => {
   console.log(error)
 }))
@@ -67,7 +67,7 @@ await (fetch(pixabayUrl)
   console.log(error)
 }))
 
-allData = {temp: weatherBitData.temp, weather: weatherBitData.des, icon: weatherBitData.icon , city: geoData.city, country: geoData.country, image: pixData.image }
+allData = {temp: weatherBitData.temp, weather: weatherBitData.des, icon: weatherBitData.icon , city: geoData.city, country: geoData.country, image: pixData.image}
 res.send(allData);
 })
 
