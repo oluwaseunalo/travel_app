@@ -21,14 +21,11 @@ console.log(difference);
        const tripDays = document.querySelector('.trip__days');
        tripDays.innerHTML = `Your trip is in ${difference} days time`;
        postData('http://localhost:8091/input')
-       .then(function(allData){
-        console.log(allData)
-        return allData
        .then (travelUpdate())
-       })
+       }
     }
 
-}
+
 
 const postData = async (url = '') => {
     const city = document.querySelector('#destination').value;
@@ -51,6 +48,30 @@ const postData = async (url = '') => {
 
 }
 
+const travelUpdate = async () => {
+    const city = document.querySelector('#destination').value;
+    const response = await fetch('http://localhost:8091/input', {
+        method: 'POST',
+        credentials:'same-origin',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({city}),
+        });
+    try {
+        const update = await response.json();
+        document.getElementById('weather__icon').innerHTML = `<img src = "./images/icons/${update.icon}.png" alt = "">`
+        document.getElementById('temp').innerHTML = update.temp + ' ' + '°C';
+        document.getElementById('weather_des').innerHTML = update.weather;
+        document.getElementById('place').innerHTML = update.city; 
+        document.getElementById('weather__country').innerHTML = update.country;
+        document.getElementById('pixabay__image').innerHTML = `<img src = "${update.image}" alt = "">`;
+    }
+    catch(error){
+        console.log("error", error);
+    }
+}
+
     export {confirmData};
 
 // fetching rapid data and searching for hotel
@@ -67,16 +88,13 @@ const adultNo = document.getElementById('adults').value;
 const childrenNo = document.getElementById('children').value;
 const roomNo = document.getElementById('rooms').value;
         postRapidData('http://localhost:8091/rapid')
-        .then(function(rapidHotelData){
-        console.log(rapidHotelData)
-        return rapidHotelData
-       .then (travelUpdate())
-       })
+       .then (hotelUpdate())
+       }
    
-}
+
 const postRapidData = async (url = '') => {
     let userData = {city: 'cityHotel', checkinDate: 'checkinDate', checkoutDate: 'checkoutDate', roomNo: 'roomNo', adultNo: 'adultNo', childrenNo: 'childrenNo'}
-    const response = await fetch(url,{
+    const res = await fetch(url,{
         method: 'POST',
         credentials:'same-origin',
         headers: {
@@ -85,13 +103,37 @@ const postRapidData = async (url = '') => {
         body: JSON.stringify({userData}),
             });
         try {
-            const newData = await response.json();
-            console.log(newData);
-            return newData;
+            const newUpdate = await res.json();
+            console.log(newUpdate);
+            return newUpdate;
             }
             catch(error){
                 console.log("error", error);
             }
+}
+
+const hotelUpdate = async () => {
+    let userData = {city: 'cityHotel', checkinDate: 'checkinDate', checkoutDate: 'checkoutDate', roomNo: 'roomNo', adultNo: 'adultNo', childrenNo: 'childrenNo'}
+    const res = await fetch('http://localhost:8091/rapid', {
+        method: 'POST',
+        credentials:'same-origin',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({userData}),
+        });
+    try {
+        const getUpdate = await res.json();
+        document.getElementById('hotel__name').innerHTML = getUpdate.name;
+        document.getElementById('hotel__id').innerHTML = getUpdate.sort;
+       // document.getElementById('hotel__cancel').innerHTML = retrieve.cancel; 
+      // document.getElementById('hotel__price').innerHTML = retrieve.price;
+
+      //  document.getElementById('place').innerHTML = update.city;
+    }
+    catch(error){
+        console.log("error", error);
+    }
 }
 
     export {searchData}

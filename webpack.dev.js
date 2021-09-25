@@ -39,7 +39,8 @@ module.exports = {
             filename: "./index.html",
         }),
         new CopyWebpackPlugin([
-            {from:'src/client/images',to:'images'} 
+            {from:'src/client/images',to:'images',
+            from: 'src/client/images/icons',to:'images'} 
         ]), 
 
         new MomentLocalesPlugin(),
