@@ -60,7 +60,7 @@ const travelUpdate = async () => {
         });
     try {
         const update = await response.json();
-        document.getElementById('weather__icon').innerHTML = `<img src = "./images/icons/${update.icon}.png" alt = "">`
+        document.getElementById('weather__icon').innerHTML = `<img src = "./images/${update.icon}.png" alt = "">`
         document.getElementById('temp').innerHTML = update.temp + ' ' + '°C';
         document.getElementById('weather_des').innerHTML = update.weather;
         document.getElementById('place').innerHTML = update.city; 

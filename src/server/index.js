@@ -94,7 +94,7 @@ app.post('/rapid', async (req, res) => {
 	}
 }))
 .then(res => res.json())
-.then(data => location = {id: data[0]['0']['dest_id'], type: data['0'].dest_type })
+.then(data => location = {id: data[0]['dest_id'], type: data[0]['dest_type'] })
 .catch(error => {
 	console.error(error);
   return error
