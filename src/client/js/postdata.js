@@ -1,4 +1,4 @@
-const postData = async (url = '') => {
+async function postData (url = '') {
     const city = document.querySelector('#destination').value;
     const response = await fetch(url,{
         method: 'POST',

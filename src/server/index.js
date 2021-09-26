@@ -26,8 +26,8 @@ app.listen(8091, function () {
     console.log('app listening on port 8091!')
 })
 
-app.get('/test', function (req, res) {
-    res.send('test passed!!');
+app.get('/test', async (req, res) => {
+  res.json({ msg: 'pass!' })
 })
 
 
