@@ -1,13 +1,12 @@
-
-const postData = async (url = '', data = {}) => {
-    console.log(data);
-    const response = await fetch(url, {
+const postData = async (url = '') => {
+    const city = document.querySelector('#destination').value;
+    const response = await fetch(url,{
         method: 'POST',
         credentials:'same-origin',
         headers: {
             'Content-Type': 'application/json',
         },
-            body: JSON.stringify(data),
+            body: JSON.stringify({city}),
         });
     try {
         const newData = await response.json();
@@ -17,6 +16,7 @@ const postData = async (url = '', data = {}) => {
     catch(error){
         console.log("error", error);
     }
+
 }
 
 export {postData};

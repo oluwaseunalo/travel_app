@@ -36,10 +36,6 @@ module.exports = {
            {
                 test: /\.(png|jp(e*)g|svg)$/,  
                 loader: 'file-loader', 
-                options: {
-                    outputPath: './media', 
-                    name: "[name].[ext]"
-                }
            }
         ]
     },

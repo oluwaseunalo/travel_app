@@ -1,6 +1,6 @@
 import moment from 'moment';
-// import { postData } from './js/postdata.js';
-// import { travelUpdate } from './js/travel_updateUI.js';
+import { postData } from './postdata';
+import { travelUpdate } from './travel_updateUI';
 
 
 // Setting up the client to retrieve, post and dynamically update the data from the API
@@ -17,60 +17,27 @@ const departure = document.querySelector('#departure').value;
 const departureDate = moment(departure);
 const difference = Math.ceil(departureDate.diff(today, "days", true));
 console.log(difference);
-    if(difference >= 1) {
+    if(difference > 1) {
        const tripDays = document.querySelector('.trip__days');
        tripDays.innerHTML = `Your trip is in ${difference} days time`;
        postData('http://localhost:8091/input')
        .then (travelUpdate())
        }
+    else if(difference==1){
+        const tripDays = document.querySelector('.trip__days');
+       tripDays.innerHTML = `Your trip is tomorrow`;
+       postData('http://localhost:8091/input')
+       .then (travelUpdate())
     }
 
-
-
-const postData = async (url = '') => {
-    const city = document.querySelector('#destination').value;
-    const response = await fetch(url,{
-        method: 'POST',
-        credentials:'same-origin',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-            body: JSON.stringify({city}),
-        });
-    try {
-        const newData = await response.json();
-        console.log(newData);
-        return newData;
-    }
-    catch(error){
-        console.log("error", error);
+    else if(difference==0){
+        const tripDays = document.querySelector('.trip__days');
+       tripDays.innerHTML = `You are travelling today`;
+       postData('http://localhost:8091/input')
+       .then (travelUpdate())
     }
 
-}
-
-const travelUpdate = async () => {
-    const city = document.querySelector('#destination').value;
-    const response = await fetch('http://localhost:8091/input', {
-        method: 'POST',
-        credentials:'same-origin',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({city}),
-        });
-    try {
-        const update = await response.json();
-        document.getElementById('weather__icon').innerHTML = `<img src = "./images/${update.icon}.png" alt = "">`
-        document.getElementById('temp').innerHTML = update.temp + ' ' + '°C';
-        document.getElementById('weather_des').innerHTML = update.weather;
-        document.getElementById('place').innerHTML = update.city; 
-        document.getElementById('weather__country').innerHTML = update.country;
-        document.getElementById('pixabay__image').innerHTML = `<img src = "${update.image}" alt = "">`;
     }
-    catch(error){
-        console.log("error", error);
-    }
-}
 
     export {confirmData};
 

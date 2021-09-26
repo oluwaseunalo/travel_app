@@ -1,7 +1,7 @@
-import {confirmData} from './js/app.js'
-import { searchData } from './js/app.js'
-import { postData } from './js/postdata.js';
-import { travelUpdate } from './js/travel_updateUI.js';
+import {confirmData} from './js/app'
+import { searchData } from './js/app'
+import { postData } from './js/postdata';
+import { travelUpdate } from './js/travel_updateUI';
 
 
 import './styles/base.scss'
