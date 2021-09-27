@@ -77,7 +77,7 @@ res.send(allData);
 
 app.post('/rapid', async (req, res) => {
 
-  rapidHotelData = '';
+  let rapidHotelData = '';
 
   const RAPIDAPI_KEY = process.env.RAPIDAPI_KEY;
 
@@ -85,7 +85,7 @@ app.post('/rapid', async (req, res) => {
   const locationHost = "booking-com.p.rapidapi.com"
 
   //fetching hotel location data
-    location = '';
+    let location = '';
   await (fetch(locationUrl, {
 	"method": "GET",
 	"headers": {

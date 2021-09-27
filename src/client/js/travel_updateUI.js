@@ -15,7 +15,7 @@ async function travelUpdate () {
         document.getElementById('weather_des').innerHTML = update.weather;
         document.getElementById('place').innerHTML = update.city; 
         document.getElementById('weather__country').innerHTML = update.country;
-        document.getElementById('pixabay__image').innerHTML = `<img src = "${update.image}" alt = "">`;
+        document.getElementById('pixabay__image').innerHTML = `<img src = "${update.image}" alt = "">`
     }
     catch(error){
         console.log("error", error);
