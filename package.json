@@ -5,7 +5,7 @@
   "scripts": {
     "test": "jest",
     "test:watch": "jest --watch",
-    "start": "node src/server/index.js",
+    "start": "node src/server/start.js",
     "build-prod": "webpack --config webpack.prod.js",
     "build-dev": "webpack-dev-server  --config webpack.dev.js --open"
   },
@@ -23,6 +23,7 @@
     "moment": "^2.29.1",
     "node-fetch": "^2.6.1",
     "node-sass": "^5.0.0",
+    "regenerator-runtime": "^0.13.9",
     "sass-loader": "10.1",
     "style-loader": "^2.0.0",
     "webpack": "^4.35.3"

@@ -22,12 +22,8 @@ app.get('/', function (req, res) {
 })
 
 // designates what port the app will listen to for incoming requests
-app.listen(8091, function () {
-    console.log('app listening on port 8091!')
-})
-
-app.get('/test', async (req, res) => {
-  res.json({ msg: 'pass!' })
+app.post('/test', (req, res) => {
+  res.send({})
 })
 
 
@@ -127,5 +123,6 @@ res.send(rapidHotelData);
   
 
 
-module.exports = app;
+
+module.exports = app
 
