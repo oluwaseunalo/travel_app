@@ -21,12 +21,12 @@ app.get('/', function (req, res) {
     res.sendFile('dist/index.html')
 })
 
-// designates what port the app will listen to for incoming requests
+// testing the post route
 app.post('/test', (req, res) => {
   res.send({})
 })
 
-
+// setting up the post route, fetch and retain data at the post endpoint-url
 app.post('/input', async (req, res) => {
   let allData = '';
   const geoUsername = process.env.GEONAMES_USERNAME;
@@ -69,59 +69,6 @@ await (fetch(pixabayUrl)
 allData = {temp: weatherBitData.temp, weather: weatherBitData.weather, icon: weatherBitData.icon , city: geoData.city, country: geoData.country, image: pixData.image}
 res.send(allData);
 })
-
-
-app.post('/rapid', async (req, res) => {
-
-  let rapidHotelData = '';
-
-  const RAPIDAPI_KEY = process.env.RAPIDAPI_KEY;
-
-  const locationUrl = `https://booking-com.p.rapidapi.com/v1/hotels/locations?name=${req.body.city}&locale=en-gb`
-  const locationHost = "booking-com.p.rapidapi.com"
-
-  //fetching hotel location data
-    let location = '';
-  await (fetch(locationUrl, {
-	"method": "GET",
-	"headers": {
-		"x-rapidapi-host": locationHost,
-		"x-rapidapi-key": RAPIDAPI_KEY
-	}
-}))
-.then(res => res.json())
-.then(data => location = {id: data[0]['0'].dest_id, type: data[0]['0'].dest_type })
-.catch(error => {
-	console.error(error);
-  return error
-});
-
-// fetching the hotel search data
-  let query = '';
-  const searchUrl = `https://booking-com.p.rapidapi.com/v1/hotels/search?locale=en-gb&checkin_date=${req.body.checkinDate}&checkout_date=${req.body.checkoutDate}&filter_by_currency=USD&room_number=${req.body.roomNo}&order_by=popularity&adults_number=${req.body.adultNo}&units=metric&children_number=${req.body.childrenNo}&categories_filter_ids=facility%3A%3A107%2Cfree_cancellation%3A%3A1&page_number=0&children_ages=5%2C0`
-  destIdCity = `&dest_id=${location.id}&dest_type=${location.type}`
-  const searchHost = 'booking-com.p.rapidapi.com'  
-  
-  await fetch(searchUrl+destIdCity, {
-	"method": "GET",
-	"headers": {
-		"x-rapidapi-host": searchHost,
-		"x-rapidapi-key": RAPIDAPI_KEY
-	}
-})
-.then(res => res.json())
-.then(data => query = {name: data.result, sort: data.sort})
-.catch(error => {
-	console.error(error);
-  return error.message;
-});
-
-rapidHotelData = {name: query.name, id: query.sort};
-res.send(rapidHotelData);
-
-})
-  
-
 
 
 module.exports = app

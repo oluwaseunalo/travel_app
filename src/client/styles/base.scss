@@ -8,7 +8,7 @@ body {
     font-family: -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
-.place__form {
+.trip__planner {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
@@ -17,7 +17,6 @@ body {
 #app {
     display: grid;
     grid-auto-rows: minmax(150px, auto);
-    /* grid-template-columns:  */
     height:100vh;
     justify-content: center;
     font-size: 20px;
@@ -39,7 +38,7 @@ body {
     margin-top: 20px;
 }
 
-/*  Basic Styling To Override Default For Basic HTML Elements */
+
 label {
     display:block;
     font-size: 18px;
@@ -74,7 +73,7 @@ textarea {
     font-family: 'Oswald', sans-serif;
     color: whitesmoke;
 }
-/* Reset style for HTML element on active to have no border*/
+
 input:focus,
 select:focus,
 textarea:focus,

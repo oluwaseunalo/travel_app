@@ -1,3 +1,4 @@
+// creating a function to update the UI
 async function travelUpdate () {
     const city = document.querySelector('#destination').value;
     const response = await fetch('http://localhost:8091/input', {
@@ -10,6 +11,7 @@ async function travelUpdate () {
         });
     try {
         const update = await response.json();
+        //updating the UI with the response
         document.getElementById('weather__icon').innerHTML = `<img src = "./images/icons/${update.icon}.png" alt = "">`
         document.getElementById('temp').innerHTML = update.temp + ' ' + '°C';
         document.getElementById('weather_des').innerHTML = update.weather;
