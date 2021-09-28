@@ -2,7 +2,6 @@ body {
     background-image: url('./../images/nature.jpg');
     background-repeat: no-repeat;
     background-size: cover;
-    height: 100vh;
     width: 100%;
     color: whitesmoke;
     font-family: -apple-system, BlinkMacSystemFont, sans-serif;
@@ -12,41 +11,14 @@ body {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
+    height: 100vh;
 }
-
-#app {
-    display: grid;
-    grid-auto-rows: minmax(150px, auto);
-    height:100vh;
-    justify-content: center;
-    font-size: 20px;
-    font-family: 'Oswald', sans-serif;
-}
-
-#zip {
-    background-color: rgb(59, 59, 192);
-    color: whitesmoke;
-}
-
-#feelings {
-    background-color: rgb(59, 59, 192);
-    color: whitesmoke;
-    height: 20vh;
-}
-
-.title {
-    margin-top: 20px;
-}
-
 
 label {
     display:block;
     font-size: 18px;
 }
 
-#date {
-    color: white;
-}
 
 input {
     display:block;
@@ -57,45 +29,73 @@ input {
 }
 
 button {
-    width: 200px;
-    height: 100px;
-    background-color: rgba(82, 124, 238, 0.938);
+    width: 150px;
+    height: 60px;
+    background-color: rgba(166, 186, 241, 0.938);
+    border-radius: 10px;
     margin: 50px;
-    font-size: 26px;
+    font-size: 20px;
     font-family: 'Oswald', sans-serif;
-    color:  rgb(2, 5, 54);;
-    box-shadow: 2px 4px 5px #444;
+    color:  rgb(2, 5, 54);
+
+    &:hover{
+        transform: scale(1.0);
+        box-shadow: 5px 5px 15px rgba(0,0,0,0.6);
+    }
 }
 
-textarea {
-    background:#22b2da;
-    font-size: 17px;
-    font-family: 'Oswald', sans-serif;
-    color: whitesmoke;
+.trip {
+    color: rgb(4, 17, 9); 
+    line-height: 30px;
+    margin-top: -1%;
 }
 
-input:focus,
-select:focus,
-textarea:focus,
-button:focus {
-    outline: none;
+
+@media only screen and (max-width: 900px) {
+    .trip__planner {
+        display: grid;
+        grid-auto-rows: minmax(30px, auto);
+    .trip {
+        color: white; 
+        margin-top: -20%;
+        margin-left: -5%;
+
+        }
+
+    label {
+        display:block;
+        font-size: 9px;
+    }
+        
+        
+    input {
+        display:block;
+        height: 30px;
+        width: 160px;
+        font-size: 10px;
+    } 
+    }
+
+    button {
+        width: 100px;
+        height: 40px;
+        background-color: rgba(166, 186, 241, 0.938);
+        border-radius: 10px;
+        margin: 25px;
+        font-size: 12px;
+        color:  rgb(2, 5, 54);   
+        
+        &:hover{
+            transform: scale(1.0);
+            box-shadow: 5px 5px 15px rgba(0,0,0,0.6);
+        }
+    } 
+
+    #pixabay__image {
+        width: 5px;
+        height: 5px;
+        margin-left: -55%;
+
+    }
 }
-/* Style for Placeholder Text*/
-::placeholder { /* Firefox, Chrome, Opera */ 
-    color: rgb(99, 94, 87);
-    font-family: 'Oswald', sans-serif;
-} 
-  
-:-ms-input-placeholder { /* Internet Explorer 10-11 */ 
-    font-family: 'Oswald', sans-serif;
-    color: wheat;
-} 
-  
-::-ms-input-placeholder { /* Microsoft Edge */ 
-    font-family: 'Oswald', sans-serif;
-    color: wheat;
-} 
-
-
-
 

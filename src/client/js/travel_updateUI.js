@@ -13,10 +13,10 @@ async function travelUpdate () {
         const update = await response.json();
         //updating the UI with the response
         document.getElementById('weather__icon').innerHTML = `<img src = "./images/icons/${update.icon}.png" alt = "">`
-        document.getElementById('temp').innerHTML = update.temp + ' ' + '°C';
-        document.getElementById('weather_des').innerHTML = update.weather;
-        document.getElementById('place').innerHTML = update.city; 
-        document.getElementById('weather__country').innerHTML = update.country;
+        document.getElementById('temp').innerHTML = `Temperature: ${update.temp} °C`
+        document.getElementById('weather_des').innerHTML = `Description: ${update.weather}`
+        document.getElementById('place').innerHTML = `Destination: ${update.city}` 
+        document.getElementById('weather__country').innerHTML = `Country: ${update.country}`
         document.getElementById('pixabay__image').innerHTML = `<img src = "${update.image}" alt = "">`
     }
     catch(error){
