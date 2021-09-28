@@ -14,5 +14,5 @@ This is a project where I built the travel app that obtains a desired trip locat
 - Addition of Service workers.
 - Using APIs and creating requests to external urls.
 
-## Background image by Nick Fewings on Unsplash
+### Background image by Nick Fewings on Unsplash
   
