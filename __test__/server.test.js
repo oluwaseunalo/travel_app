@@ -1,5 +1,5 @@
 import regeneratorRuntime from "regenerator-runtime";
-import app from '../src/server/index'
+import app from '../src/server/server'
 const supertest = require('supertest');
 const request = supertest(app);
 
