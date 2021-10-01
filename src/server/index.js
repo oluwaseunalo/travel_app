@@ -77,7 +77,7 @@ app.post('/rapid', async (req, res) => {
 
   const RAPIDAPI_KEY = process.env.RAPIDAPI_KEY;
 
-  const locationUrl = `https://booking-com.p.rapidapi.com/v1/hotels/locations?name=${req.body.city}&locale=en-gb`
+  const locationUrl = `https://booking-com.p.rapidapi.com/v1/hotels/locations?name=${req.body.userData.city}&locale=en-gb`
   const locationHost = "booking-com.p.rapidapi.com"
 
   //fetching hotel location data
@@ -89,8 +89,12 @@ app.post('/rapid', async (req, res) => {
 		"x-rapidapi-key": RAPIDAPI_KEY
 	}
 }))
-.then(res => res.json())
-.then(data => location = {id: data[0]['0'].dest_id, type: data[0]['0'].dest_type })
+.then((res) => {
+  console.log(res);
+ res.json()})
+.then((data) => { console.log(data); 
+  location = {id: data[0]['dest_id'], type: data[0]['dest_type']};
+console.log(location)})
 .catch(error => {
 	console.error(error);
   return error
@@ -98,7 +102,7 @@ app.post('/rapid', async (req, res) => {
 
 // fetching the hotel search data
   let query = '';
-  const searchUrl = `https://booking-com.p.rapidapi.com/v1/hotels/search?locale=en-gb&checkin_date=${req.body.checkinDate}&checkout_date=${req.body.checkoutDate}&filter_by_currency=USD&room_number=${req.body.roomNo}&order_by=popularity&adults_number=${req.body.adultNo}&units=metric&children_number=${req.body.childrenNo}&categories_filter_ids=facility%3A%3A107%2Cfree_cancellation%3A%3A1&page_number=0&children_ages=5%2C0`
+  const searchUrl = `https://booking-com.p.rapidapi.com/v1/hotels/search?locale=en-gb&checkin_date=${req.body.userData.checkinDate}&checkout_date=${req.body.userData.checkoutDate}&filter_by_currency=USD&room_number=${req.body.userData.roomNo}&order_by=popularity&adults_number=${req.body.userData.adultNo}&units=metric&children_number=${req.body.userData.childrenNo}&categories_filter_ids=facility%3A%3A107%2Cfree_cancellation%3A%3A1&page_number=0&children_ages=5%2C0`
   destIdCity = `&dest_id=${location.id}&dest_type=${location.type}`
   const searchHost = 'booking-com.p.rapidapi.com'  
   
@@ -109,8 +113,11 @@ app.post('/rapid', async (req, res) => {
 		"x-rapidapi-key": RAPIDAPI_KEY
 	}
 })
-.then(res => res.json())
-.then(data => query = {name: data.result, sort: data.sort})
+.then((res) => {
+  console.log(res);
+res.json()})
+.then((data) => {console.log(data);
+  query = {name: data.result, sort: data.sort}})
 .catch(error => {
 	console.error(error);
   return error.message;

@@ -48,19 +48,19 @@ const search = document.querySelector('#search');
 
     function searchData (e) {
         e.preventDefault();
-const cityHotel = document.getElementById('hotel__destination').value;
-const checkinDate = document.getElementById('checkin__date').value;
-const checkoutDate = document.getElementById('checkout__date').value;
-const adultNo = document.getElementById('adults').value;
-const childrenNo = document.getElementById('children').value;
-const roomNo = document.getElementById('rooms').value;
         postRapidData('http://localhost:8091/rapid')
        .then (hotelUpdate())
        }
    
 
 const postRapidData = async (url = '') => {
-    let userData = {city: 'cityHotel', checkinDate: 'checkinDate', checkoutDate: 'checkoutDate', roomNo: 'roomNo', adultNo: 'adultNo', childrenNo: 'childrenNo'}
+    const cityHotel = document.getElementById('hotel__destination').value;
+    const checkinDate = document.getElementById('checkin__date').value;
+    const checkoutDate = document.getElementById('checkout__date').value;
+    const adultNo = document.getElementById('adults').value;
+    const childrenNo = document.getElementById('children').value;
+    const roomNo = document.getElementById('rooms').value;
+    let userData = {city: cityHotel, checkinDate: checkinDate, checkoutDate: checkoutDate, roomNo: roomNo, adultNo: adultNo, childrenNo: childrenNo}
     const res = await fetch(url,{
         method: 'POST',
         credentials:'same-origin',
@@ -80,7 +80,7 @@ const postRapidData = async (url = '') => {
 }
 
 const hotelUpdate = async () => {
-    let userData = {city: 'cityHotel', checkinDate: 'checkinDate', checkoutDate: 'checkoutDate', roomNo: 'roomNo', adultNo: 'adultNo', childrenNo: 'childrenNo'}
+    let userData = {city: cityHotel, checkinDate: checkinDate, checkoutDate: checkoutDate, roomNo: roomNo, adultNo: adultNo, childrenNo: childrenNo}
     const res = await fetch('http://localhost:8091/rapid', {
         method: 'POST',
         credentials:'same-origin',
