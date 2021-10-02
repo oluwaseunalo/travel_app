@@ -91,36 +91,39 @@ app.post('/rapid', async (req, res) => {
 }))
 .then((res) => {
   console.log(res);
- res.json()})
-.then((data) => { console.log(data); 
+ res.json().then((data) => { console.log(data); 
   location = {id: data[0]['dest_id'], type: data[0]['dest_type']};
 console.log(location)})
 .catch(error => {
 	console.error(error);
   return error
-});
+})
+
+})
 
 // fetching the hotel search data
   let query = '';
-  const searchUrl = `https://booking-com.p.rapidapi.com/v1/hotels/search?locale=en-gb&checkin_date=${req.body.userData.checkinDate}&checkout_date=${req.body.userData.checkoutDate}&filter_by_currency=USD&room_number=${req.body.userData.roomNo}&order_by=popularity&adults_number=${req.body.userData.adultNo}&units=metric&children_number=${req.body.userData.childrenNo}&categories_filter_ids=facility%3A%3A107%2Cfree_cancellation%3A%3A1&page_number=0&children_ages=5%2C0`
+  const searchUrl = `https://booking-com.p.rapidapi.com/v1/hotels/search?locale=en-gb&checkin_date=${req.body.userData.checkinDate}&checkout_date=${req.body.userData.checkoutDate}&filter_by_currency=USD&room_number=${req.body.userData.roomNo}&order_by=popularity&adults_number=${req.body.userData.adultNo}&units=metric&children_number=${req.body.userData.childrenNo}`
   destIdCity = `&dest_id=${location.id}&dest_type=${location.type}`
   const searchHost = 'booking-com.p.rapidapi.com'  
   
-  await fetch(searchUrl+destIdCity, {
+  await (fetch(searchUrl+destIdCity, {
 	"method": "GET",
 	"headers": {
 		"x-rapidapi-host": searchHost,
 		"x-rapidapi-key": RAPIDAPI_KEY
 	}
-})
+}))
 .then((res) => {
   console.log(res);
-res.json()})
-.then((data) => {console.log(data);
-  query = {name: data.result, sort: data.sort}})
+res.json().then((data) => {console.log(data);
+  query = {name: data.result, sort: data.sort}
+})
 .catch(error => {
 	console.error(error);
   return error.message;
+})
+
 });
 
 rapidHotelData = {name: query.name, id: query.sort};

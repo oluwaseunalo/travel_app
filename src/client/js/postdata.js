@@ -1,3 +1,4 @@
+// setting up the post data callback function
 async function postData (url = '') {
     const city = document.querySelector('#destination').value;
     const response = await fetch(url,{

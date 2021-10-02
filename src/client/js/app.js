@@ -49,7 +49,7 @@ const search = document.querySelector('#search');
     function searchData (e) {
         e.preventDefault();
         postRapidData('http://localhost:8091/rapid')
-       .then (hotelUpdate())
+       .then(hotelUpdate())
        }
    
 
