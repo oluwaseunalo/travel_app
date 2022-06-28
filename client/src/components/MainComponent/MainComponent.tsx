@@ -16,7 +16,7 @@ const MainComponent: React.FC = () => {
       <>
          <form onSubmit={submitHandler}>
             <input type="text" onChange={textHandler} />
-            <div>{text}</div>
+            {} <div>{text}</div>
             <button type="submit">Click me</button>
          </form>
       </>
