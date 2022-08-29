@@ -1,0 +1,17 @@
+{
+  "env": "development",
+  "dbConfig": {
+    "host": "senneh20",
+    "database": "?retryWrites=true&w=majority",
+    "port": "Vzt5ZkhUpLrj@V6@simpleformapp.xrasctg.mongodb.net"
+  },
+  "secretKey": "secretKey",
+  "log": {
+    "format": "dev",
+    "dir": "../logs"
+  },
+  "cors": {
+    "origin": true,
+    "credentials": true
+  }
+}
